@@ -13,7 +13,7 @@ NAME = fillit
 
 CFLAGS += -Wall -Wextra -Werror
 
-SRCS = main read free result process_tetro
+SRCS = main read free result process_tetro print
 
 CFILES = $(addprefix ./src/, $(addsuffix .c, $(SRCS)))
 

@@ -4,7 +4,6 @@ int		read_file(char *file, t_fillit *f, int i)
 {
 	int		fd;
 	char	buf[1];
-	// int		j;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -23,20 +22,16 @@ int		read_file(char *file, t_fillit *f, int i)
 		free_map(f, 0, 0);
 		return (1);
 	}
+	malloc_size(f);
 	if (malloc_result(f))
 		return (1);
-	// j = 0;
-	// while (f->maps[j])
-	// {
-	// 	i = 0;
-	// 	while (f->maps[j][i])
-	// 	{
-	// 		ft_putstr(f->maps[j][i++]);
-	// 		ft_putstr("\n");
-	// 	}
-	// 	ft_putstr("\n");
-	// 	j++;
-	// }
+	coordinate_init(f);
+	find_coord(f, 0);
+	reset_coord(f, 0);
+	print_cord(f, 0, 0, 0);
+	solve(f, 0, 0, 0);
+	ft_putstr("\n");
+	print_result(f, 0, 0);
 	return (0);
 }
 
@@ -133,5 +128,6 @@ int		check_format_error(t_fillit *f, int i)
 			i++;
 		f->map_num++;
 	}
+	f->result_size = f->map_num;
 	return (0);
 }

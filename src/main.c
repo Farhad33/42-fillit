@@ -29,6 +29,5 @@ int		main(int argc, char **argv)
 		write(2, "error", 5);
 		ft_putchar('\n');
 	}
-	overlap_map(&f, 0, 0, 0);
 	return (0);
 }
