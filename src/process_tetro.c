@@ -2,8 +2,6 @@
 
 int		control(t_fillit *f)
 {
-	char	**result;
-
 	malloc_result(f);
 	if ((f->result = solve(f, result, 0)))
 		print_result(f, 0, 0);
