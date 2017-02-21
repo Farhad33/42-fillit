@@ -14,11 +14,12 @@
 # define FILLITLIB_H
 # define BUF_SIZE 4096
 
-# include <sys/types.h> // for open
-# include <sys/stat.h> //for read
-# include <fcntl.h> //for open
-# include <unistd.h> //for write
-# include <stdlib.h> //for malloc & free
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 # include "libft/libft.h"
 
 typedef struct		s_fillit
@@ -28,8 +29,7 @@ typedef struct		s_fillit
 	char	str[1000];
 	char	***maps;
 	char	**result;
-	int		x;
-	int		y;
+	int		**xy;
 	int		result_count;
 	int		result_size;
 	int		row;
@@ -50,14 +50,20 @@ void	malloc_size(t_fillit *f);
 void	print_result(t_fillit *f, int i, int j);
 int		coordinate_init(t_fillit *f);
 void	find_coord(t_fillit *f, int i);
-void	print_cord(t_fillit *f, int i, int j, int k);
+void	print_cord(t_fillit *f, int i, int j);
 void	reset_coord(t_fillit *f, int i);
-void	solve(t_fillit *f, int i, int x, int y);
+int		solve(t_fillit *f, int i);
 void	free_result(t_fillit *f);
 int		fit_one_peace(t_fillit *f, int i, int x, int y);
 int		label_coords(t_fillit *f, int i, int x, int y);
-int		add_one_xy(t_fillit *f, int i, int xy, int j);
-int		extend_result(t_fillit *f, int i, int y);
+int		add_one_y(t_fillit *f, int i, int y);
+int		add_one_x(t_fillit *f, int i, int x);
+int		check_boundries(t_fillit *f, int i, int y);
+int		init_xy(t_fillit *f);
+void	xy_zero(t_fillit *f, int i);
+int		control(t_fillit *f);
+void	remove_one_result(t_fillit *f, int i, int x, int y);
+int		move_one_peace(t_fillit *f, int i);
 
 
 #endif

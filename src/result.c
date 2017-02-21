@@ -1,11 +1,12 @@
 #include "../fillitlib.h"
 
-void	malloc_result(t_fillit *f)
+int		malloc_result(t_fillit *f)
 {
 	int		i;
 	char	*line;
 
-	if (!(f->result = malloc(sizeof(result) * (f->result_size + 1))))
+	// printf(" malloc_result \n" );
+	if (!(f->result = malloc(sizeof(f->result) * (f->result_size + 1))))
 		return (1);
 	i = 0;
 	while (i < f->result_size)
@@ -18,6 +19,7 @@ void	malloc_result(t_fillit *f)
 		i++;
 	}
 	f->result[i] = 0;
+	return (0);
 }
 
 int		coordinate_init(t_fillit *f)
@@ -48,6 +50,35 @@ int		coordinate_init(t_fillit *f)
 		i++;
 	}
 	return (0);
+}
+
+int		init_xy(t_fillit *f)
+{
+	int i;
+	int *each;
+
+	if (!(f->xy = malloc(sizeof(f->xy) * (f->map_num))))
+		return (1);
+	i = 0;
+	while (i < f->map_num)
+	{
+		if (!(each = malloc(sizeof(int) * (2))))
+			return (1);
+		f->xy[i] = each;
+		i++;
+	}
+	xy_zero(f, 0);
+	return (0);
+}
+
+void	xy_zero(t_fillit *f, int i)
+{
+	while (i < f->map_num)
+	{
+		f->xy[i][0] = 0;
+		f->xy[i][1] = 0;
+		i++;
+	}
 }
 
 void	malloc_size(t_fillit *f)

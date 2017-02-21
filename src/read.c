@@ -28,10 +28,8 @@ int		read_file(char *file, t_fillit *f, int i)
 	coordinate_init(f);
 	find_coord(f, 0);
 	reset_coord(f, 0);
-	print_cord(f, 0, 0, 0);
-	solve(f, 0, 0, 0);
-	ft_putstr("\n");
-	print_result(f, 0, 0);
+	init_xy(f);
+	control(f);
 	return (0);
 }
 
