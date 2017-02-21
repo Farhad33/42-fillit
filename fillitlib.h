@@ -28,6 +28,8 @@ typedef struct		s_fillit
 	char	str[1000];
 	char	***maps;
 	char	**result;
+	int		x;
+	int		y;
 	int		result_count;
 	int		result_size;
 	int		row;

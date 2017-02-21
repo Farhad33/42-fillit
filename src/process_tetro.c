@@ -3,7 +3,7 @@
 int		control(t_fillit *f)
 {
 	malloc_result(f);
-	if ((f->result = solve(f, result, 0)))
+	if (solve(f, result, 0))
 		print_result(f, 0, 0);
 	else
 	{
@@ -15,66 +15,66 @@ int		control(t_fillit *f)
 
 int		solve(t_fillit *f, int i)
 {
-	while (i < f->map_num)
+	if (recursive(f, i))
+		return (1);
+	else
 	{
-		if (move_one_peace(f, i, 0, 0))
-			return (1);
-		i++;
+		
 	}
 	return (0);
 }
 
-int		recursive(t_fillit *f, int i, int x, int y)
+int		recursive(t_fillit *f, int i)
 {
 	while (1)
 	{
-		if (check_boundries(f, i, y))
+		if (check_boundries(f, i))
 			return (0);
-		if (label_coords(f, i, x, y))
+		if (label_coords(f, i))
 			return (1);
-		else if (add_one_xy(f, i, x, 0))
+		else if (add_one_xy(f, i, 0))
 		{
-			x++;
+			f->x++;
 			ft_putstr(" x++ ");
 		}
-		else if (add_one_xy(f, i, y, 1))
+		else if (add_one_xy(f, i, 1))
 		{
 			ft_putstr(" y++ ");
-			y++;
-			x = 0;
+			f->y++;
+			f->x = 0;
 		}
 	}
 	return (0);
 }
 
-int		move_one_peace(t_fillit *f, int i, int x, int y)
+int		move_one_peace(t_fillit *f, int i)
 {
-	while (check_boundries(f, i, y))
+	while (check_boundries(f, i))
 	{
-		if (label_coords(f, i, x, y))
+		if (label_coords(f, i))
 			return (1);
-		else if (add_one_xy(f, i, x, 0))
-			x++;
-		else if (add_one_xy(f, i, y, 1))
+		else if (add_one_xy(f, i, f->x, 0))
+			f->x++;
+		else if (add_one_xy(f, i, f->y, 1))
 		{
-			y++;
-			x = 0;
+			f->y++;
+			f->x = 0;
 		}
 	}
 	return (0);
 }
 
-int		label_coords(t_fillit *f, int i, int x, int y)
+int		label_coords(t_fillit *f, int i)
 {
-	if (f->result[f->coords[i][0][0] + y][f->coords[i][0][1] + x] == '.' &&
-		f->result[f->coords[i][1][0] + y][f->coords[i][1][1] + x] == '.' &&
-		f->result[f->coords[i][2][0] + y][f->coords[i][2][1] + x] == '.' &&
-		f->result[f->coords[i][3][0] + y][f->coords[i][3][1] + x] == '.')
+	if (f->result[f->coords[i][0][0] + f->y][f->coords[i][0][1] + f->x] == '.' &&
+		f->result[f->coords[i][1][0] + f->y][f->coords[i][1][1] + f->x] == '.' &&
+		f->result[f->coords[i][2][0] + f->y][f->coords[i][2][1] + f->x] == '.' &&
+		f->result[f->coords[i][3][0] + f->y][f->coords[i][3][1] + f->x] == '.')
 	{
-		f->result[f->coords[i][0][0] + y][f->coords[i][0][1] + x] = ('A' + i);
-		f->result[f->coords[i][1][0] + y][f->coords[i][1][1] + x] = ('A' + i);
-		f->result[f->coords[i][2][0] + y][f->coords[i][2][1] + x] = ('A' + i);
-		f->result[f->coords[i][3][0] + y][f->coords[i][3][1] + x] = ('A' + i);
+		f->result[f->coords[i][0][0] + f->y][f->coords[i][0][1] + f->x] = ('A' + i);
+		f->result[f->coords[i][1][0] + f->y][f->coords[i][1][1] + f->x] = ('A' + i);
+		f->result[f->coords[i][2][0] + f->y][f->coords[i][2][1] + f->x] = ('A' + i);
+		f->result[f->coords[i][3][0] + f->y][f->coords[i][3][1] + f->x] = ('A' + i);
 		return (1);
 	}
 	return (0);
@@ -96,12 +96,12 @@ int		add_one_xy(t_fillit *f, int i, int xy, int j)
 	return (0);
 }
 
-int		extend_result(t_fillit *f, int i, int y)
+int		extend_result(t_fillit *f, int i)
 {
-	if (f->coords[i][0][0] + y >= (f->result_size) ||
-		f->coords[i][1][0] + y >= (f->result_size) ||
-		f->coords[i][2][0] + y >= (f->result_size) ||
-		f->coords[i][3][0] + y >= (f->result_size))
+	if (f->coords[i][0][0] + f->y >= (f->result_size) ||
+		f->coords[i][1][0] + f->y >= (f->result_size) ||
+		f->coords[i][2][0] + f->y >= (f->result_size) ||
+		f->coords[i][3][0] + f->y >= (f->result_size))
 	{
 		ft_putstr(" extend_result ");
 		free_result(f);
@@ -113,12 +113,12 @@ int		extend_result(t_fillit *f, int i, int y)
 	return (0);
 }
 
-int		check_boundries(t_fillit *f, int i, int y)
+int		check_boundries(t_fillit *f, int i)
 {
-	if (f->coords[i][0][0] + y >= (f->result_size) ||
-		f->coords[i][1][0] + y >= (f->result_size) ||
-		f->coords[i][2][0] + y >= (f->result_size) ||
-		f->coords[i][3][0] + y >= (f->result_size))
+	if (f->coords[i][0][0] + f->y >= (f->result_size) ||
+		f->coords[i][1][0] + f->y >= (f->result_size) ||
+		f->coords[i][2][0] + f->y >= (f->result_size) ||
+		f->coords[i][3][0] + f->y >= (f->result_size))
 	{
 		ft_putstr(" check_boundries ");
 		return (0);
@@ -165,7 +165,7 @@ void 	reset_coord(t_fillit *f, int i)
 	while (i < f->map_num)
 	{
 		while (f->coords[i][0][0] > 0 && f->coords[i][1][0] > 0 &&
-			f->coords[i][2][0] > 0 && f->coords[i][3][0] > 0)
+			   f->coords[i][2][0] > 0 && f->coords[i][3][0] > 0)
 		{
 			f->coords[i][0][0]--;
 			f->coords[i][1][0]--;
@@ -173,7 +173,7 @@ void 	reset_coord(t_fillit *f, int i)
 			f->coords[i][3][0]--;
 		}
 		while (f->coords[i][0][1] > 0 && f->coords[i][1][1] > 0 &&
-			f->coords[i][2][1] > 0 && f->coords[i][3][1] > 0)
+			   f->coords[i][2][1] > 0 && f->coords[i][3][1] > 0)
 		{
 			f->coords[i][0][1]--;
 			f->coords[i][1][1]--;
